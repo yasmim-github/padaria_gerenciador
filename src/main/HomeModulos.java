@@ -15,7 +15,6 @@ import colaboradores.CadastroDeFuncionario;
 import estoque.CadastroDeProdutos;
 
 import javax.swing.SwingConstants;
-import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import java.awt.Button;
 

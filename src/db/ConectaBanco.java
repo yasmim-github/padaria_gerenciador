@@ -7,7 +7,7 @@ public class ConectaBanco {
     private String senha = "root";
     private String host = "localhost";
     private String porta = "3306";
-    private String bd = "programacao2024";
+    private String bd = "padaria_do_pandoca";
     
     public Connection obtemConexao (){
         try{
