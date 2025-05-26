@@ -3,6 +3,7 @@ package colaboradores;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -20,6 +21,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import db.ConectaBanco;
+import main.HomeModulos;
 
 public class CadastroDeFuncionario extends JFrame {
 
@@ -67,18 +69,27 @@ public class CadastroDeFuncionario extends JFrame {
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setBounds(10, 31, 472, 29);
 		panel.add(lblTitulo);
+		
+		//botao de voltar a home
 
-		JButton btnHome = new JButton("");
-		btnHome.addActionListener(new ActionListener() {
+		JButton btnvoltar = new JButton("");
+		btnvoltar.setBounds(10, 11, 32, 32); 
+		btnvoltar.setBackground(new Color(0x393030));
+		btnvoltar.setBounds(10, 11, 35, 27);
+		panel.add(btnvoltar);
+
+		btnvoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				HomeModulos home = new HomeModulos();
+				home.setVisible(true);
 				dispose();
 			}
 		});
-		btnHome.setIcon(new ImageIcon("C:\\Users\\marce\\Downloads\\white-home.png"));
-		btnHome.setForeground(new Color(57, 48, 48));
-		btnHome.setBackground(new Color(57, 48, 48));
-		btnHome.setBounds(10, 11, 35, 27);
-		panel.add(btnHome);
+		
+		ImageIcon icon = new ImageIcon(new ImageIcon(
+			    getClass().getResource("/resources/img/houseicon.png")
+			).getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
+		btnvoltar.setIcon(icon);
 
 		JLabel lblNomeCompleto = new JLabel("Nome Completo");
 		lblNomeCompleto.setHorizontalAlignment(SwingConstants.CENTER);
