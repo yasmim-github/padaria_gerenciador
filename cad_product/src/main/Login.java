@@ -1,119 +1,155 @@
 package main;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import java.sql.*;
+import javax.swing.*;
 
 import db.ConectaBanco;
 
 public class Login extends JFrame {
+    
+    
+    JTextField cpf = new JTextField(15);
+    JTextField nome = new JTextField(20);
+    String[] cargos = {"gerente", "dono", "caixa"};
+    JComboBox<String> cargosbox = new JComboBox<>(cargos);
+    JButton entrar = new JButton("Entrar");
 
-	JTextField cpf = new JTextField(15);
-	JTextField nome = new JTextField(20);
-	
-	String[] cargos = {"gerente","dono","caixa"};
-	
-	JComboBox<String> cargosbox = new JComboBox<>(cargos);
-	JButton entrar = new JButton();
-	
-	JLabel labelCpf = new JLabel("CPF:");
+    JLabel labelTitulo = new JLabel("Login");
+    JLabel labelCpf = new JLabel("CPF:");
     JLabel labelNome = new JLabel("Nome:");
     JLabel labelCargo = new JLabel("Cargo:");
-	
-	public Login() {
-		setTitle("Login");
-		setSize(400,300);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLayout(null);
-		setLocationRelativeTo(null);
-		
-		labelCpf.setBounds(50, 10, 100, 20);
-        labelNome.setBounds(50, 50, 100, 20);
-        labelCargo.setBounds(50, 90, 100, 20);
 
-        cpf.setBounds(50, 30, 300, 25);
-        nome.setBounds(50, 70, 300, 25);
-        cargosbox.setBounds(50, 110, 300, 25);
-        entrar.setBounds(150, 160, 100, 30);
+    JPanel painelEsquerdo = new JPanel();
+    JPanel painelDireito = new JPanel();
 
-        add(labelCpf);
-        add(cpf);
-        add(labelNome);
-        add(nome);
-        add(labelCargo);
-        add(cargosbox);
-        add(entrar);
+    public Login() {
+        setTitle("Login");
+        setSize(600, 350);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
+        setLocationRelativeTo(null); 
+
         
+        painelEsquerdo.setBackground(new Color(248, 236, 218));
+        painelEsquerdo.setBounds(0, 0, 250, 350);
+        painelEsquerdo.setLayout(null);
+
+        
+        painelDireito.setBackground(Color.WHITE);
+        painelDireito.setBounds(250, 0, 350, 350);
+        painelDireito.setLayout(null);
+
+        
+        labelTitulo.setBounds(120, 10, 150, 30);
+        labelTitulo.setFont(new Font("SansSerif", Font.BOLD, 24));
+        labelTitulo.setForeground(new Color(130, 92, 60));
+
+        labelCpf.setBounds(30, 60, 100, 20);
+        labelCpf.setFont(new Font("SansSerif", Font.PLAIN, 14));
+
+        cpf.setForeground(Color.BLACK);
+        cpf.setBackground(Color.WHITE);
+        cpf.setBounds(30, 80, 280, 25);
+
+        labelNome.setBounds(30, 115, 100, 20);
+        labelNome.setFont(new Font("SansSerif", Font.PLAIN, 14));
+
+        nome.setBounds(30, 135, 280, 25);
+
+        labelCargo.setBounds(30, 170, 100, 20);
+        labelCargo.setFont(new Font("SansSerif", Font.PLAIN, 14));
+
+        cargosbox.setBounds(30, 190, 280, 25);
+
+        entrar.setBounds(100, 240, 120, 35);
+        entrar.setBackground(new Color(130, 92, 60));
+        entrar.setForeground(Color.WHITE);
+        entrar.setFont(new Font("SansSerif", Font.BOLD, 16));
+        entrar.setFocusPainted(false);
+
+        painelDireito.add(labelTitulo);
+        painelDireito.add(labelCpf);
+        painelDireito.add(cpf);
+        painelDireito.add(labelNome);
+        painelDireito.add(nome);
+        painelDireito.add(labelCargo);
+        painelDireito.add(cargosbox);
+        painelDireito.add(entrar);
+
+        // Logo na esquerda
+        ImageIcon iconOriginal = new ImageIcon(getClass().getResource("/imgs/icon_1.jpg"));
+        Image imagemRedimensionada = iconOriginal.getImage().getScaledInstance(166, 220, Image.SCALE_SMOOTH);
+        ImageIcon iconRedimensionado = new ImageIcon(imagemRedimensionada);
+
+        JLabel logoLabel = new JLabel(iconRedimensionado);
+        logoLabel.setBounds(41, 57, 149, 171);
+        painelEsquerdo.add(logoLabel);
+
+        getContentPane().add(painelEsquerdo);
+        getContentPane().add(painelDireito);
+
+        // Ação do botão entrar
         entrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 inserirNoBanco();
             }
         });
-        
+
         setVisible(true);
-        
-	}
-	
-	public void limparCampos() {
-	    cpf.setText("");
-	    nome.setText("");
-	    cargosbox.setSelectedIndex(0);
-	}
-	
-	public void inserirNoBanco() {
-		String cpftxt = cpf.getText().trim();
-		String nometxt = nome.getText().trim();
-		String cargotxt = cargosbox.getSelectedItem().toString();
-		
-		try {
-			ConectaBanco conbd = new ConectaBanco();
-			Connection conn = conbd.obtemConexao();
-			String sql = "SELECT * FROM usuario WHERE cpf = ? AND nome = ? AND cargo = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, cpftxt);
-			stmt.setString(2, nometxt);
-			stmt.setString(3, cargotxt);
-	        ResultSet rs = stmt.executeQuery();
-			
-	        if (rs.next()) {
-	            JOptionPane.showMessageDialog(this, "Login bem-sucedido! Usuário encontrado.");
-	            HomeModulos home = new HomeModulos();
-	            home.setVisible(true);
-	            this.dispose();
-	            
-	        } else {
-	            JOptionPane.showMessageDialog(this, "Usuário não encontrado. Verifique suas credenciais.");
-	            limparCampos();
-	        
-	        }
+    }
 
-	        rs.close();
-	        stmt.close();
-	        conn.close();
-			
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			JOptionPane.showMessageDialog(this, "Falha ao logar no sistema." + ex.getMessage());
+    // Limpa os campos após tentativa de login
+    public void limparCampos() {
+        cpf.setText("");
+        nome.setText("");
+        cargosbox.setSelectedIndex(0);
+    }
 
-		}
-		
-	}
-	
-	
-	   public static void main(String[] args) {
-	        new Login();
-	    }
-	}		
-	
-	
+    // Faz consulta no banco
+    public void inserirNoBanco() {
+        String cpftxt = cpf.getText().trim();
+        String nometxt = nome.getText().trim();
+        String cargotxt = cargosbox.getSelectedItem().toString();
+
+        try {
+            ConectaBanco conbd = new ConectaBanco();
+            Connection conn = conbd.obtemConexao();
+
+            String sql = "SELECT * FROM usuario WHERE cpf = ? AND nome = ? AND cargo = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, cpftxt);
+            stmt.setString(2, nometxt);
+            stmt.setString(3, cargotxt);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(this, "Login bem-sucedido! Usuário encontrado.");
+                HomeModulos home = new HomeModulos();
+                home.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuário não encontrado. Verifique suas credenciais.");
+                limparCampos();
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Falha ao logar no sistema: " + ex.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        new Login();
+    }
+}

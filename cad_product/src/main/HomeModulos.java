@@ -2,123 +2,119 @@ package main;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
 import colaboradores.CadastroDeFuncionario;
+import colaboradores.gerenFuncionario;
+import colaboradores.interColaboradores;
 import estoque.interEstoque;
 
 public class HomeModulos extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+    private static final long serialVersionUID = 1L;
+    private JPanel contentPane;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(() -> {
-			try {
-				HomeModulos frame = new HomeModulos();
-				frame.setVisible(true);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
-	}
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                HomeModulos frame = new HomeModulos();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
-	public HomeModulos() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(HomeModulos.class.getResource("/imgs/icon_1.png")));
-		setTitle("Padaria - Módulos");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 520);
-		setResizable(false);
+    public HomeModulos() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(HomeModulos.class.getResource("/imgs/icon_1.jpg")));
+        setTitle("Padaria - Módulos");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 900, 520);
+        setResizable(false);
 
-		contentPane = new JPanel() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
+        contentPane = new JPanel();
+        contentPane.setLayout(null);
+        setContentPane(contentPane);
 
-			@Override
-			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				ImageIcon img = new ImageIcon(getClass().getResource("/imgs/fundo_padaria.png"));
-				g.drawImage(img.getImage(), getWidth() / 2, 0, getWidth() / 2, getHeight(), this);
-			}
-		};
-		contentPane.setLayout(null);
-		setContentPane(contentPane);
+        
+        JPanel sidePanel = new JPanel();
+        sidePanel.setBackground(Color.BLACK);
+        sidePanel.setBounds(0, 0, 196, 520);
+        sidePanel.setLayout(null);
+        contentPane.add(sidePanel);
 
-		
-		JPanel sidePanel = new JPanel();
-		sidePanel.setBackground(Color.BLACK);
-		sidePanel.setBounds(0, 0, 257, 520);
-		sidePanel.setLayout(null);
-		contentPane.add(sidePanel);
+      
+        JButton btnUser = new JButton(loadIcon("/imgs/user.png", 50, 50));
+        btnUser.setBounds(25, 30, 50, 50);
+        btnUser.setBorderPainted(false);
+        btnUser.setFocusPainted(false);
+        btnUser.setContentAreaFilled(false);
+        sidePanel.add(btnUser);
 
-		
-		JButton btnUser = new JButton(new ImageIcon(getClass().getResource("/imgs/user.png")));
-		btnUser.setBounds(25, 30, 50, 50);
-		btnUser.setBorderPainted(false);
-		btnUser.setFocusPainted(false);
-		btnUser.setContentAreaFilled(false);
-		sidePanel.add(btnUser);
+        
+        JButton btnBack = new JButton(loadIcon("/imgs/voltar.png", 50, 50));
+        btnBack.addActionListener((ActionEvent e) -> {
+            dispose();
+            Login log = new Login();
+            log.setVisible(true);
+        });
+        btnBack.setBounds(25, 411, 50, 50);
+        btnBack.setBorderPainted(false);
+        btnBack.setFocusPainted(false);
+        btnBack.setContentAreaFilled(false);
+        sidePanel.add(btnBack);
 
-		
-		JButton btnBack = new JButton(new ImageIcon(getClass().getResource("/imgs/back.png")));
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				Login log = new Login();
-				log.setVisible(true);
-			}
-		});
-		btnBack.setBounds(25, 450, 50, 50);
-		btnBack.setBorderPainted(false);
-		btnBack.setFocusPainted(false);
-		btnBack.setContentAreaFilled(false);
-		sidePanel.add(btnBack);
+        
+        JButton btnEstoque = createButton("Estoque", "/imgs/pão.png");
+        btnEstoque.setBounds(300, 100, 150, 120);
+        btnEstoque.addActionListener(e -> {
+            interEstoque estoque = new interEstoque();
+            estoque.setVisible(true);
+        });
+        contentPane.add(btnEstoque);
 
-		
-		JButton btnEstoque = createButton("Estoque", "/imgs/bread.png");
-		btnEstoque.setBounds(180, 100, 150, 120);
-		btnEstoque.addActionListener(e -> {
-			interEstoque estoque = new interEstoque();
-			estoque.setVisible(true);
-		});
-		contentPane.add(btnEstoque);
+        JButton btnCaixa = createButton("vender", "/imgs/vender(1).png");
+        btnCaixa.setBounds(500, 100, 150, 120);
+        contentPane.add(btnCaixa);
 
-		
-		JButton btnCaixa = createButton("Caixa", "/imgs/caixa.png");
-		btnCaixa.setBounds(370, 100, 150, 120);
-		contentPane.add(btnCaixa);
+        JButton btnColaboradores = createButton("Colaboradores", "/imgs/colaboradores (2).png");
+        btnColaboradores.setBounds(300, 250, 150, 120);
+        btnColaboradores.addActionListener(e -> {
+            gerenFuncionario geren = new gerenFuncionario();
+            geren.setVisible(true);
+        });
+        contentPane.add(btnColaboradores);
 
-		
-		JButton btnColaboradores = createButton("Colaboradores", "/imgs/list.png");
-		btnColaboradores.setBounds(180, 250, 150, 120);
-		btnColaboradores.addActionListener(e -> {
-			CadastroDeFuncionario cad = new CadastroDeFuncionario();
-			cad.setVisible(true);
-		});
-		contentPane.add(btnColaboradores);
+        JButton btnRegistros = createButton("Registros", "/imgs/registro.png");
+        btnRegistros.setBounds(500, 250, 150, 120);
+        contentPane.add(btnRegistros);
 
-		
-		JButton btnRegistros = createButton("Registros", "/imgs/book.png");
-		btnRegistros.setBounds(370, 250, 150, 120);
-		contentPane.add(btnRegistros);
+        
+        ImageIcon backgroundIcon = new ImageIcon(getClass().getResource("/imgs/fundo_padaria(2).png.png"));
+        Image backgroundImage = backgroundIcon.getImage().getScaledInstance(900, 520, Image.SCALE_SMOOTH);
+        JLabel background = new JLabel(new ImageIcon(backgroundImage));
+        background.setBounds(91, 0, 1104, 503);
+        contentPane.add(background);
+    }
 
-	}
+    
+    private JButton createButton(String text, String iconPath) {
+        JButton button = new JButton("<html><center>" + text + "</center></html>");
+        button.setIcon(loadIcon(iconPath, 80, 80));
+        button.setHorizontalTextPosition(SwingConstants.CENTER);
+        button.setVerticalTextPosition(SwingConstants.BOTTOM);
+        button.setBackground(new Color(130, 92, 60));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createLineBorder(new Color(130, 92, 60), 10, true));
+        button.setFont(new Font("Tahoma", Font.BOLD, 14));
+        return button;
+    }
 
-	
-	private JButton createButton(String text, String iconPath) {
-		JButton button = new JButton("<html><center>" + text + "</center></html>");
-		button.setIcon(new ImageIcon(getClass().getResource(iconPath)));
-		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		button.setVerticalTextPosition(SwingConstants.BOTTOM);
-		button.setBackground(new Color(130, 92, 60));
-		button.setForeground(Color.WHITE);
-		button.setFocusPainted(false);
-		button.setBorder(BorderFactory.createLineBorder(new Color(130, 92, 60), 10, true));
-		button.setFont(new Font("Tahoma", Font.BOLD, 14));
-		return button;
-	}
+    
+    private ImageIcon loadIcon(String path, int width, int height) {
+        ImageIcon icon = new ImageIcon(getClass().getResource(path));
+        Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(image);
+    }
 }
