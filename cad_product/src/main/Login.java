@@ -81,7 +81,7 @@ public class Login extends JFrame {
         painelDireito.add(cargosbox);
         painelDireito.add(entrar);
 
-        // Logo na esquerda
+        
         ImageIcon iconOriginal = new ImageIcon(getClass().getResource("/imgs/icon_1.jpg"));
         Image imagemRedimensionada = iconOriginal.getImage().getScaledInstance(166, 220, Image.SCALE_SMOOTH);
         ImageIcon iconRedimensionado = new ImageIcon(imagemRedimensionada);
@@ -93,7 +93,7 @@ public class Login extends JFrame {
         getContentPane().add(painelEsquerdo);
         getContentPane().add(painelDireito);
 
-        // Ação do botão entrar
+       
         entrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -104,14 +104,14 @@ public class Login extends JFrame {
         setVisible(true);
     }
 
-    // Limpa os campos após tentativa de login
+   
     public void limparCampos() {
         cpf.setText("");
         nome.setText("");
         cargosbox.setSelectedIndex(0);
     }
 
-    // Faz consulta no banco
+   
     public void inserirNoBanco() {
         String cpftxt = cpf.getText().trim();
         String nometxt = nome.getText().trim();

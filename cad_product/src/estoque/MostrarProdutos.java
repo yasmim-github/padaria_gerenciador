@@ -14,7 +14,7 @@ public class MostrarProdutos extends JFrame {
     private JPanel contentPane;
     private JTable table;
 
-    // Dados de conexão com o banco de dados
+   
     private static final String URL = "jdbc:mysql://localhost:3306/padaria_do_pandoca";
     private static final String USER = "root";
     private static final String PASSWORD = "root";
