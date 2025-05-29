@@ -11,7 +11,7 @@ public class HomeModulos extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    private String cargoUsuario; 
+    private String cargoUsuario;
 
     public HomeModulos(String cargoUsuario) {
         this.cargoUsuario = cargoUsuario;
@@ -54,7 +54,7 @@ public class HomeModulos extends JFrame {
         JButton btnEstoque = createButton("Estoque", "/imgs/pão.png");
         btnEstoque.setBounds(300, 100, 150, 120);
         btnEstoque.addActionListener(e -> {
-            interEstoque estoque = new interEstoque(cargoUsuario); 
+            interEstoque estoque = new interEstoque(cargoUsuario);
             estoque.setVisible(true);
         });
         contentPane.add(btnEstoque);
@@ -70,10 +70,10 @@ public class HomeModulos extends JFrame {
                 gerenFuncionario geren = new gerenFuncionario();
                 geren.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, 
-                    "Acesso negado! Somente Dono ou Gerente podem acessar Colaboradores.", 
-                    "Permissão Negada", 
-                    JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        "Acesso negado! Somente Dono ou Gerente podem acessar Colaboradores.",
+                        "Permissão Negada",
+                        JOptionPane.WARNING_MESSAGE);
             }
         });
         contentPane.add(btnColaboradores);
@@ -82,13 +82,12 @@ public class HomeModulos extends JFrame {
         btnRegistros.setBounds(500, 250, 150, 120);
         btnRegistros.addActionListener(e -> {
             if (cargoUsuario.equalsIgnoreCase("gerente") || cargoUsuario.equalsIgnoreCase("dono")) {
-                
                 JOptionPane.showMessageDialog(this, "Abrindo tela de Registros (placeholder).");
             } else {
-                JOptionPane.showMessageDialog(this, 
-                    "Acesso negado! Somente Dono ou Gerente podem acessar Registros.", 
-                    "Permissão Negada", 
-                    JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        "Acesso negado! Somente Dono ou Gerente podem acessar Registros.",
+                        "Permissão Negada",
+                        JOptionPane.WARNING_MESSAGE);
             }
         });
         contentPane.add(btnRegistros);
@@ -100,7 +99,7 @@ public class HomeModulos extends JFrame {
         contentPane.add(background);
     }
 
-   
+    // Método auxiliar para criar botões estilizados
     private JButton createButton(String text, String iconPath) {
         JButton button = new JButton("<html><center>" + text + "</center></html>");
         button.setIcon(loadIcon(iconPath, 80, 80));
@@ -114,10 +113,22 @@ public class HomeModulos extends JFrame {
         return button;
     }
 
-   
+    // Método auxiliar para carregar e redimensionar ícones
     private ImageIcon loadIcon(String path, int width, int height) {
         ImageIcon icon = new ImageIcon(getClass().getResource(path));
         Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(image);
+    }
+
+    // Método principal para executar a janela
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                HomeModulos frame = new HomeModulos("gerente"); // ou "dono", "atendente", etc.
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
