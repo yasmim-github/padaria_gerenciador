@@ -6,11 +6,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.GridLayout;
+import java.awt.Image;
+
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -65,10 +69,6 @@ public class interColaboradores extends JFrame {
 		btnNewButton.setBounds(15, 101, 179, 21);
 		contentPane.add(btnNewButton);
 		
-		JLabel label_1 = new JLabel("");
-		label_1.setBounds(5, 173, 426, 84);
-		contentPane.add(label_1);
-		
 		JButton btnNewButton_1 = new JButton("cadastrar funcionários");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -80,5 +80,19 @@ public class interColaboradores extends JFrame {
 		btnNewButton_1.setBackground(new Color(159, 119, 84));
 		btnNewButton_1.setBounds(224, 101, 179, 21);
 		contentPane.add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton(loadIcon("/imgs/voltar.png", 50, 50));
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnNewButton_2.setBounds(20, 210, 50, 50);
+		contentPane.add(btnNewButton_2);
 	}
-}
+	 private ImageIcon loadIcon(String path, int width, int height) {
+	        ImageIcon icon = new ImageIcon(getClass().getResource(path));
+	        Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+	        return new ImageIcon(image);
+	    }
+	}

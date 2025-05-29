@@ -8,6 +8,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MostrarProdutos extends JFrame {
 
@@ -60,8 +62,18 @@ public class MostrarProdutos extends JFrame {
         btnCarregar.setBounds(400, 500, 180, 30);
         btnCarregar.addActionListener(e -> carregarProdutos());
         contentPane.add(btnCarregar);
+        
+        JButton btnNewButton = new JButton(loadIcon("/imgs/voltar.png", 50, 50));
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		dispose();
+        	}
+        });
+        
+        btnNewButton.setBounds(49, 496, 50, 50);
+        contentPane.add(btnNewButton);
 
-        // Renderer de imagem
+       
         table.getColumn("Imagem").setCellRenderer(new ImageRenderer());
     }
 
@@ -118,8 +130,8 @@ public class MostrarProdutos extends JFrame {
                         rs.getBigDecimal("peso"),
                         rs.getDate("validade"),
                         rs.getString("fornecedor"),
-                        "", // Preço/kg não se aplica
-                        "", // Preço total não se aplica
+                        "", 
+                        "", 
                         imagem
                     });
                 }
@@ -170,7 +182,7 @@ public class MostrarProdutos extends JFrame {
             System.err.println("Erro ao carregar imagem do banco: " + e.getMessage());
         }
 
-        // Se não tiver imagem no banco, carrega imagem padrão "icon_1.png"
+        
         try {
             BufferedImage imgPadrao = ImageIO.read(getClass().getResource("/imgs/icon_1.png"));
             if (imgPadrao != null) {
@@ -205,4 +217,10 @@ public class MostrarProdutos extends JFrame {
             return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         }
     }
+    private ImageIcon loadIcon(String path, int width, int height) {
+        ImageIcon icon = new ImageIcon(getClass().getResource(path));
+        Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(image);
+    }
 }
+

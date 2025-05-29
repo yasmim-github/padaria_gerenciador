@@ -4,19 +4,16 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 import javax.swing.*;
 
 import db.ConectaBanco;
 
 public class Login extends JFrame {
-    
-    
+
     JTextField cpf = new JTextField(15);
     JTextField nome = new JTextField(20);
-    String[] cargos = {"gerente", "dono", "caixa"};
-    JComboBox<String> cargosbox = new JComboBox<>(cargos);
+    JComboBox<String> cargosbox = new JComboBox<>();
     JButton entrar = new JButton("Entrar");
 
     JLabel labelTitulo = new JLabel("Login");
@@ -32,19 +29,16 @@ public class Login extends JFrame {
         setSize(600, 350);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
-        setLocationRelativeTo(null); 
+        setLocationRelativeTo(null);
 
-        
         painelEsquerdo.setBackground(new Color(248, 236, 218));
         painelEsquerdo.setBounds(0, 0, 250, 350);
         painelEsquerdo.setLayout(null);
 
-        
         painelDireito.setBackground(Color.WHITE);
         painelDireito.setBounds(250, 0, 350, 350);
         painelDireito.setLayout(null);
 
-        
         labelTitulo.setBounds(120, 10, 150, 30);
         labelTitulo.setFont(new Font("SansSerif", Font.BOLD, 24));
         labelTitulo.setForeground(new Color(130, 92, 60));
@@ -81,7 +75,6 @@ public class Login extends JFrame {
         painelDireito.add(cargosbox);
         painelDireito.add(entrar);
 
-        
         ImageIcon iconOriginal = new ImageIcon(getClass().getResource("/imgs/icon_1.jpg"));
         Image imagemRedimensionada = iconOriginal.getImage().getScaledInstance(166, 220, Image.SCALE_SMOOTH);
         ImageIcon iconRedimensionado = new ImageIcon(imagemRedimensionada);
@@ -93,45 +86,43 @@ public class Login extends JFrame {
         getContentPane().add(painelEsquerdo);
         getContentPane().add(painelDireito);
 
-       
-        entrar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                inserirNoBanco();
-            }
+        carregarCargos();
+
+        entrar.addActionListener((ActionEvent e) -> {
+            fazerLogin();
         });
 
         setVisible(true);
     }
 
-   
+    
     public void limparCampos() {
         cpf.setText("");
         nome.setText("");
         cargosbox.setSelectedIndex(0);
     }
 
-   
-    public void inserirNoBanco() {
+    
+    public void fazerLogin() {
         String cpftxt = cpf.getText().trim();
         String nometxt = nome.getText().trim();
-        String cargotxt = cargosbox.getSelectedItem().toString();
+        String cargotxt = cargosbox.getSelectedItem().toString().trim();
 
         try {
             ConectaBanco conbd = new ConectaBanco();
             Connection conn = conbd.obtemConexao();
 
-            String sql = "SELECT * FROM usuario WHERE cpf = ? AND nome = ? AND cargo = ?";
+            String sql = "SELECT * FROM usuario WHERE LOWER(cpf) = LOWER(?) AND LOWER(nome) = LOWER(?) AND LOWER(cargo) = LOWER(?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, cpftxt);
-            stmt.setString(2, nometxt);
-            stmt.setString(3, cargotxt);
+            stmt.setString(1, cpftxt.toLowerCase());
+            stmt.setString(2, nometxt.toLowerCase());
+            stmt.setString(3, cargotxt.toLowerCase());
 
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                JOptionPane.showMessageDialog(this, "Login bem-sucedido! Usuário encontrado.");
-                HomeModulos home = new HomeModulos();
+                JOptionPane.showMessageDialog(this, "Login bem-sucedido! Bem-vindo(a) " + nometxt);
+                HomeModulos home = new HomeModulos(cargotxt); // Passa o cargo para a tela de módulos
                 home.setVisible(true);
                 this.dispose();
             } else {
@@ -145,7 +136,32 @@ public class Login extends JFrame {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Falha ao logar no sistema: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Erro ao fazer login: " + ex.getMessage());
+        }
+    }
+
+    
+    public void carregarCargos() {
+        try {
+            ConectaBanco conbd = new ConectaBanco();
+            Connection conn = conbd.obtemConexao();
+
+            String sql = "SELECT DISTINCT cargo FROM usuario";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                cargosbox.addItem(rs.getString("cargo"));
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao carregar cargos: " + e.getMessage());
         }
     }
 

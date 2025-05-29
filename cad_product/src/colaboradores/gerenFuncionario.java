@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+
 public class gerenFuncionario extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -15,7 +16,7 @@ public class gerenFuncionario extends JFrame {
     private JTable table;
     private DefaultTableModel model;
 
-    // Dados de conexão com o banco
+    
     private final String URL = "jdbc:mysql://localhost:3306/padaria_do_pandoca";
     private final String USER = "root";
     private final String PASSWORD = "root";
@@ -70,31 +71,34 @@ public class gerenFuncionario extends JFrame {
                 "ID", "Nome", "Cargo", "Cidade", "Bairro", "Número", "Telefone", "Email", "CPF"
         });
 
+     
+        JButton btnSair = new JButton(loadIcon("/imgs/voltar.png", 50, 50));
+        btnSair.setForeground(Color.WHITE);
+        btnSair.setBackground(new Color(159, 119, 84));
+        btnSair.setBounds(30, 400, 50, 50); 
+        contentPane.add(btnSair);
+
+        
         JButton btnCadastrar = new JButton("Cadastrar");
         btnCadastrar.setForeground(Color.WHITE);
         btnCadastrar.setBackground(new Color(159, 119, 84));
-        btnCadastrar.setBounds(30, 400, 120, 30);
+        btnCadastrar.setBounds(260, 400, 120, 30);
         contentPane.add(btnCadastrar);
 
         JButton btnAlterar = new JButton("Alterar");
         btnAlterar.setForeground(Color.WHITE);
         btnAlterar.setBackground(new Color(159, 119, 84));
-        btnAlterar.setBounds(200, 400, 120, 30);
+        btnAlterar.setBounds(390, 400, 120, 30);
         contentPane.add(btnAlterar);
 
         JButton btnExcluir = new JButton("Excluir");
         btnExcluir.setForeground(Color.WHITE);
         btnExcluir.setBackground(new Color(159, 119, 84));
-        btnExcluir.setBounds(400, 400, 120, 30);
+        btnExcluir.setBounds(520, 400, 120, 30);
         contentPane.add(btnExcluir);
 
-        JButton btnSair = new JButton("Sair");
-        btnSair.setForeground(Color.WHITE);
-        btnSair.setBackground(new Color(159, 119, 84));
-        btnSair.setBounds(600, 400, 120, 30);
-        contentPane.add(btnSair);
 
-        // 🔍 Ações dos botões
+       
         btnPesquisar.addActionListener(e -> pesquisarFuncionarios());
         btnCadastrar.addActionListener(e -> cadastrarFuncionario());
         btnAlterar.addActionListener(e -> alterarFuncionario());
@@ -102,7 +106,7 @@ public class gerenFuncionario extends JFrame {
         btnSair.addActionListener(e -> dispose());
     }
 
-    // 🔍 Método pesquisar
+   
     private void pesquisarFuncionarios() {
         model.setRowCount(0);
         String nome = txtPesquisar.getText();
@@ -132,7 +136,7 @@ public class gerenFuncionario extends JFrame {
         }
     }
 
-    // ➕ Método cadastrar
+    
     private void cadastrarFuncionario() {
         JTextField txtNome = new JTextField();
         JTextField txtCargo = new JTextField();
@@ -191,7 +195,7 @@ public class gerenFuncionario extends JFrame {
         }
     }
 
-    // ✏️ Método alterar
+   
     private void alterarFuncionario() {
         int row = table.getSelectedRow();
         if (row == -1) {
@@ -209,7 +213,7 @@ public class gerenFuncionario extends JFrame {
         String email = (String) model.getValueAt(row, 7);
         String cpf = (String) model.getValueAt(row, 8);
 
-        // Inputs para alteração
+       
         nome = JOptionPane.showInputDialog(this, "Nome:", nome);
         cargo = JOptionPane.showInputDialog(this, "Cargo (operador, gerente, dono):", cargo);
         cidade = JOptionPane.showInputDialog(this, "Cidade:", cidade);
@@ -242,7 +246,7 @@ public class gerenFuncionario extends JFrame {
         }
     }
 
-    // ❌ Método excluir
+   
     private void excluirFuncionario() {
         int row = table.getSelectedRow();
         if (row == -1) {
@@ -274,4 +278,10 @@ public class gerenFuncionario extends JFrame {
     private String hashSenha(String senha) {
         return Integer.toHexString(senha.hashCode());
     }
+    private ImageIcon loadIcon(String path, int width, int height) {
+        ImageIcon icon = new ImageIcon(getClass().getResource(path));
+        Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(image);
+    }
 }
+
