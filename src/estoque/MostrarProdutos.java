@@ -50,7 +50,7 @@ public class MostrarProdutos extends JFrame {
         table.setModel(new DefaultTableModel(
             new Object[][] {},
             new String[] {
-                "ID", "Nome", "Tipo", "Código", "Preço Compra", "Preço Venda", "Quantidade",
+                "ID", "Nome", "Tipo", "Código", "Preço Venda", "Quantidade",
                 "Marca", "Peso", "Validade", "Fornecedor", "Preço/kg", "Preço Total", "Imagem"
             }
         ));
@@ -123,7 +123,6 @@ public class MostrarProdutos extends JFrame {
                         nome,
                         tipo,
                         rs.getString("codigo_serial"),
-                        rs.getBigDecimal("preco_compra"),
                         rs.getBigDecimal("preco_venda"),
                         rs.getInt("quantidade"),
                         rs.getString("marca"),

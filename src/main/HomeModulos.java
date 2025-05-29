@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import colaboradores.gerenFuncionario;
 import estoque.interEstoque;
+import venda.VendaView;
 
 public class HomeModulos extends JFrame {
 
@@ -60,6 +61,10 @@ public class HomeModulos extends JFrame {
         contentPane.add(btnEstoque);
 
         JButton btnCaixa = createButton("Vender", "/imgs/vender(1).png");
+        btnCaixa.addActionListener(e -> {
+            VendaView venda = new VendaView();
+            venda.setVisible(true);
+        });
         btnCaixa.setBounds(500, 100, 150, 120);
         contentPane.add(btnCaixa);
 
