@@ -4,6 +4,8 @@ import java.awt.*;
 import java.sql.*;
 import javax.swing.*;
 
+import db.ConectaBanco;
+
 public class Cad_Produto_base extends JFrame {
 
     private static final long serialVersionUID = 1L;
