@@ -50,7 +50,11 @@ public class MostrarProdutos extends JFrame {
         table.setModel(new DefaultTableModel(
             new Object[][] {},
             new String[] {
+<<<<<<< HEAD
+                "ID", "Nome", "Tipo", "Código", "Preço Venda", "Quantidade",
+=======
                 "ID", "Nome", "Tipo", "Código", "Preço Compra", "Preço Venda", "Quantidade",
+>>>>>>> 4859b57 (arrumando master)
                 "Marca", "Peso", "Validade", "Fornecedor", "Preço/kg", "Preço Total", "Imagem"
             }
         ));
@@ -123,7 +127,10 @@ public class MostrarProdutos extends JFrame {
                         nome,
                         tipo,
                         rs.getString("codigo_serial"),
+<<<<<<< HEAD
+=======
                         rs.getBigDecimal("preco_compra"),
+>>>>>>> 4859b57 (arrumando master)
                         rs.getBigDecimal("preco_venda"),
                         rs.getInt("quantidade"),
                         rs.getString("marca"),

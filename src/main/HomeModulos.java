@@ -6,12 +6,20 @@ import javax.swing.*;
 
 import colaboradores.gerenFuncionario;
 import estoque.interEstoque;
+<<<<<<< HEAD
+import venda.VendaView;
+=======
+>>>>>>> 4859b57 (arrumando master)
 
 public class HomeModulos extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
+<<<<<<< HEAD
     private String cargoUsuario;
+=======
+    private String cargoUsuario; 
+>>>>>>> 4859b57 (arrumando master)
 
     public HomeModulos(String cargoUsuario) {
         this.cargoUsuario = cargoUsuario;
@@ -54,12 +62,23 @@ public class HomeModulos extends JFrame {
         JButton btnEstoque = createButton("Estoque", "/imgs/pão.png");
         btnEstoque.setBounds(300, 100, 150, 120);
         btnEstoque.addActionListener(e -> {
+<<<<<<< HEAD
             interEstoque estoque = new interEstoque(cargoUsuario);
+=======
+            interEstoque estoque = new interEstoque(cargoUsuario); 
+>>>>>>> 4859b57 (arrumando master)
             estoque.setVisible(true);
         });
         contentPane.add(btnEstoque);
 
         JButton btnCaixa = createButton("Vender", "/imgs/vender(1).png");
+<<<<<<< HEAD
+        btnCaixa.addActionListener(e -> {
+            VendaView venda = new VendaView();
+            venda.setVisible(true);
+        });
+=======
+>>>>>>> 4859b57 (arrumando master)
         btnCaixa.setBounds(500, 100, 150, 120);
         contentPane.add(btnCaixa);
 
@@ -70,10 +89,17 @@ public class HomeModulos extends JFrame {
                 gerenFuncionario geren = new gerenFuncionario();
                 geren.setVisible(true);
             } else {
+<<<<<<< HEAD
                 JOptionPane.showMessageDialog(this,
                         "Acesso negado! Somente Dono ou Gerente podem acessar Colaboradores.",
                         "Permissão Negada",
                         JOptionPane.WARNING_MESSAGE);
+=======
+                JOptionPane.showMessageDialog(this, 
+                    "Acesso negado! Somente Dono ou Gerente podem acessar Colaboradores.", 
+                    "Permissão Negada", 
+                    JOptionPane.WARNING_MESSAGE);
+>>>>>>> 4859b57 (arrumando master)
             }
         });
         contentPane.add(btnColaboradores);
@@ -82,12 +108,22 @@ public class HomeModulos extends JFrame {
         btnRegistros.setBounds(500, 250, 150, 120);
         btnRegistros.addActionListener(e -> {
             if (cargoUsuario.equalsIgnoreCase("gerente") || cargoUsuario.equalsIgnoreCase("dono")) {
+<<<<<<< HEAD
                 JOptionPane.showMessageDialog(this, "Abrindo tela de Registros (placeholder).");
             } else {
                 JOptionPane.showMessageDialog(this,
                         "Acesso negado! Somente Dono ou Gerente podem acessar Registros.",
                         "Permissão Negada",
                         JOptionPane.WARNING_MESSAGE);
+=======
+                
+                JOptionPane.showMessageDialog(this, "Abrindo tela de Registros (placeholder).");
+            } else {
+                JOptionPane.showMessageDialog(this, 
+                    "Acesso negado! Somente Dono ou Gerente podem acessar Registros.", 
+                    "Permissão Negada", 
+                    JOptionPane.WARNING_MESSAGE);
+>>>>>>> 4859b57 (arrumando master)
             }
         });
         contentPane.add(btnRegistros);
@@ -99,7 +135,11 @@ public class HomeModulos extends JFrame {
         contentPane.add(background);
     }
 
+<<<<<<< HEAD
     // Método auxiliar para criar botões estilizados
+=======
+   
+>>>>>>> 4859b57 (arrumando master)
     private JButton createButton(String text, String iconPath) {
         JButton button = new JButton("<html><center>" + text + "</center></html>");
         button.setIcon(loadIcon(iconPath, 80, 80));
@@ -113,12 +153,17 @@ public class HomeModulos extends JFrame {
         return button;
     }
 
+<<<<<<< HEAD
     // Método auxiliar para carregar e redimensionar ícones
+=======
+   
+>>>>>>> 4859b57 (arrumando master)
     private ImageIcon loadIcon(String path, int width, int height) {
         ImageIcon icon = new ImageIcon(getClass().getResource(path));
         Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(image);
     }
+<<<<<<< HEAD
 
     // Método principal para executar a janela
     public static void main(String[] args) {
@@ -131,4 +176,6 @@ public class HomeModulos extends JFrame {
             }
         });
     }
+=======
+>>>>>>> 4859b57 (arrumando master)
 }
