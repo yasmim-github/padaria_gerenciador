@@ -59,7 +59,7 @@ public class VendaView extends JFrame {
                 controller.adicionarProduto();
             }
         });
-        btnAdicionarProduto.setBounds(20, 20, 180, 23);
+        btnAdicionarProduto.setBounds(236, 27, 180, 23);
         getContentPane().add(btnAdicionarProduto);
 
         JScrollPane scrollPane = new JScrollPane();
@@ -83,6 +83,17 @@ public class VendaView extends JFrame {
         });
         btnFinalizar.setBounds(550, 376, 130, 23);
         getContentPane().add(btnFinalizar);
+        
+        JButton btnNewButton = new JButton("Sair");
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		dispose();
+        	}
+        });
+        btnNewButton.setForeground(new Color(255, 255, 255));
+        btnNewButton.setBackground(new Color(130, 92, 60));
+        btnNewButton.setBounds(35, 28, 85, 21);
+        getContentPane().add(btnNewButton);
     }
 
     public JTable getTable() {

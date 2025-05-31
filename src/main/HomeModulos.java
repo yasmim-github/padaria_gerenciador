@@ -15,12 +15,11 @@ public class HomeModulos extends JFrame {
     private JPanel contentPane;
 
     private String cargoUsuario;
+    private int usuarioId;  
 
-   
-
-
-    public HomeModulos(String cargoUsuario) {
+    public HomeModulos(String cargoUsuario, int usuarioId) {
         this.cargoUsuario = cargoUsuario;
+        this.usuarioId = usuarioId;
 
         setIconImage(Toolkit.getDefaultToolkit().getImage(HomeModulos.class.getResource("/imgs/icon_1.jpg")));
         setTitle("Padaria - Módulos");
@@ -39,6 +38,10 @@ public class HomeModulos extends JFrame {
         contentPane.add(sidePanel);
 
         JButton btnUser = new JButton(loadIcon("/imgs/user.png", 50, 50));
+        btnUser.addActionListener((ActionEvent e) -> {
+            PerfilUsuario usu = new PerfilUsuario(usuarioId);  // ✅ Passando usuarioId corretamente
+            usu.setVisible(true);
+        });
         btnUser.setBounds(25, 30, 50, 50);
         btnUser.setBorderPainted(false);
         btnUser.setFocusPainted(false);
@@ -60,22 +63,16 @@ public class HomeModulos extends JFrame {
         JButton btnEstoque = createButton("Estoque", "/imgs/pão.png");
         btnEstoque.setBounds(300, 100, 150, 120);
         btnEstoque.addActionListener(e -> {
-
             interEstoque estoque = new interEstoque(cargoUsuario);
- 
-
             estoque.setVisible(true);
         });
         contentPane.add(btnEstoque);
 
         JButton btnCaixa = createButton("Vender", "/imgs/vender(1).png");
-
         btnCaixa.addActionListener(e -> {
             VendaView venda = new VendaView();
             venda.setVisible(true);
         });
-
-
         btnCaixa.setBounds(500, 100, 150, 120);
         contentPane.add(btnCaixa);
 
@@ -86,12 +83,10 @@ public class HomeModulos extends JFrame {
                 gerenFuncionario geren = new gerenFuncionario();
                 geren.setVisible(true);
             } else {
-
                 JOptionPane.showMessageDialog(this,
                         "Acesso negado! Somente Dono ou Gerente podem acessar Colaboradores.",
                         "Permissão Negada",
                         JOptionPane.WARNING_MESSAGE);
-
             }
         });
         contentPane.add(btnColaboradores);
@@ -100,7 +95,6 @@ public class HomeModulos extends JFrame {
         btnRegistros.setBounds(500, 250, 150, 120);
         btnRegistros.addActionListener(e -> {
             if (cargoUsuario.equalsIgnoreCase("gerente") || cargoUsuario.equalsIgnoreCase("dono")) {
-
                 InterRelatorios inter = new InterRelatorios();
                 inter.setVisible(true);
             } else {
@@ -108,10 +102,7 @@ public class HomeModulos extends JFrame {
                         "Acesso negado! Somente Dono ou Gerente podem acessar Registros.",
                         "Permissão Negada",
                         JOptionPane.WARNING_MESSAGE);
-
-                
-                JOptionPane.showMessageDialog(this, "Abrindo tela de Registros (placeholder).");
-            } 
+            }
         });
         contentPane.add(btnRegistros);
 
@@ -121,7 +112,6 @@ public class HomeModulos extends JFrame {
         background.setBounds(91, 0, 1104, 503);
         contentPane.add(background);
     }
-
 
     private JButton createButton(String text, String iconPath) {
         JButton button = new JButton("<html><center>" + text + "</center></html>");
@@ -136,7 +126,6 @@ public class HomeModulos extends JFrame {
         return button;
     }
 
-
     private ImageIcon loadIcon(String path, int width, int height) {
         ImageIcon icon = new ImageIcon(getClass().getResource(path));
         Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
@@ -146,12 +135,11 @@ public class HomeModulos extends JFrame {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
-                HomeModulos frame = new HomeModulos("gerente"); // ou "dono", "atendente", etc.
+                HomeModulos frame = new HomeModulos("gerente", 1);  
                 frame.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
     }
-
 }

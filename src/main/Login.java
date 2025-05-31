@@ -12,13 +12,13 @@ import db.ConectaBanco;
 public class Login extends JFrame {
 
     JTextField cpf = new JTextField(15);
-    JTextField nome = new JTextField(20);
+    JPasswordField senha = new JPasswordField(20);
     JComboBox<String> cargosbox = new JComboBox<>();
     JButton entrar = new JButton("Entrar");
 
     JLabel labelTitulo = new JLabel("Login");
     JLabel labelCpf = new JLabel("CPF:");
-    JLabel labelNome = new JLabel("Nome:");
+    JLabel labelSenha = new JLabel("Senha:");
     JLabel labelCargo = new JLabel("Cargo:");
 
     JPanel painelEsquerdo = new JPanel();
@@ -46,14 +46,12 @@ public class Login extends JFrame {
         labelCpf.setBounds(30, 60, 100, 20);
         labelCpf.setFont(new Font("SansSerif", Font.PLAIN, 14));
 
-        cpf.setForeground(Color.BLACK);
-        cpf.setBackground(Color.WHITE);
         cpf.setBounds(30, 80, 280, 25);
 
-        labelNome.setBounds(30, 115, 100, 20);
-        labelNome.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        labelSenha.setBounds(30, 115, 100, 20);
+        labelSenha.setFont(new Font("SansSerif", Font.PLAIN, 14));
 
-        nome.setBounds(30, 135, 280, 25);
+        senha.setBounds(30, 135, 280, 25);
 
         labelCargo.setBounds(30, 170, 100, 20);
         labelCargo.setFont(new Font("SansSerif", Font.PLAIN, 14));
@@ -69,8 +67,8 @@ public class Login extends JFrame {
         painelDireito.add(labelTitulo);
         painelDireito.add(labelCpf);
         painelDireito.add(cpf);
-        painelDireito.add(labelNome);
-        painelDireito.add(nome);
+        painelDireito.add(labelSenha);
+        painelDireito.add(senha);
         painelDireito.add(labelCargo);
         painelDireito.add(cargosbox);
         painelDireito.add(entrar);
@@ -95,35 +93,36 @@ public class Login extends JFrame {
         setVisible(true);
     }
 
-    
     public void limparCampos() {
         cpf.setText("");
-        nome.setText("");
+        senha.setText("");
         cargosbox.setSelectedIndex(0);
     }
 
-    
     public void fazerLogin() {
         String cpftxt = cpf.getText().trim();
-        String nometxt = nome.getText().trim();
+        String senhatxt = new String(senha.getPassword()).trim();
         String cargotxt = cargosbox.getSelectedItem().toString().trim();
 
         try {
             ConectaBanco conbd = new ConectaBanco();
             Connection conn = conbd.obtemConexao();
 
-            String sql = "SELECT * FROM usuario WHERE LOWER(cpf) = LOWER(?) AND LOWER(nome) = LOWER(?) AND LOWER(cargo) = LOWER(?)";
+            String sql = "SELECT * FROM usuario WHERE cpf = ? AND senha_hash = ? AND cargo = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, cpftxt.toLowerCase());
-            stmt.setString(2, nometxt.toLowerCase());
-            stmt.setString(3, cargotxt.toLowerCase());
+            stmt.setString(1, cpftxt);
+            stmt.setString(2, senhatxt);
+            stmt.setString(3, cargotxt);
 
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                JOptionPane.showMessageDialog(this, "Login bem-sucedido! Bem-vindo(a) " + nometxt);
-                HomeModulos home = new HomeModulos(cargotxt); // Passa o cargo para a tela de módulos
+                int usuarioId = rs.getInt("id");
+                JOptionPane.showMessageDialog(this, "Login bem-sucedido! Bem-vindo(a)!");
+
+                HomeModulos home = new HomeModulos(cargotxt, usuarioId);
                 home.setVisible(true);
+
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Usuário não encontrado. Verifique suas credenciais.");
@@ -140,29 +139,10 @@ public class Login extends JFrame {
         }
     }
 
-    
     public void carregarCargos() {
-        try {
-            ConectaBanco conbd = new ConectaBanco();
-            Connection conn = conbd.obtemConexao();
-
-            String sql = "SELECT DISTINCT cargo FROM usuario";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                cargosbox.addItem(rs.getString("cargo"));
-            }
-
-            rs.close();
-            stmt.close();
-            conn.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Erro ao carregar cargos: " + e.getMessage());
-        }
+        cargosbox.addItem("operador");
+        cargosbox.addItem("gerente");
+        cargosbox.addItem("dono");
     }
 
     public static void main(String[] args) {
