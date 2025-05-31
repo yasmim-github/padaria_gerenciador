@@ -6,7 +6,7 @@ import javax.swing.*;
 
 import colaboradores.gerenFuncionario;
 import estoque.interEstoque;
-
+import relatórios.InterRelatorios;
 import venda.VendaView;
 
 public class HomeModulos extends JFrame {
@@ -101,7 +101,8 @@ public class HomeModulos extends JFrame {
         btnRegistros.addActionListener(e -> {
             if (cargoUsuario.equalsIgnoreCase("gerente") || cargoUsuario.equalsIgnoreCase("dono")) {
 
-                JOptionPane.showMessageDialog(this, "Abrindo tela de Registros (placeholder).");
+                InterRelatorios inter = new InterRelatorios();
+                inter.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this,
                         "Acesso negado! Somente Dono ou Gerente podem acessar Registros.",
