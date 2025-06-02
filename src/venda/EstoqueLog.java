@@ -7,10 +7,10 @@ public class EstoqueLog {
     private int produtoId;
     private int usuarioId;
     private String acao; // "entrada", "saida" ou "ajuste"
-    private int quantidade;
+    private double quantidade;
     private Timestamp dataHora;
 
-    public EstoqueLog(int id, int produtoId, int usuarioId, String acao, int quantidade, Timestamp dataHora) {
+    public EstoqueLog(int id, int produtoId, int usuarioId, String acao, double quantidade, Timestamp dataHora) {
         this.id = id;
         this.produtoId = produtoId;
         this.usuarioId = usuarioId;
@@ -23,6 +23,6 @@ public class EstoqueLog {
     public int getProdutoId() { return produtoId; }
     public int getUsuarioId() { return usuarioId; }
     public String getAcao() { return acao; }
-    public int getQuantidade() { return quantidade; }
+    public double getQuantidade() { return quantidade; }
     public Timestamp getDataHora() { return dataHora; }
 }

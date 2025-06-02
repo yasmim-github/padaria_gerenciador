@@ -68,9 +68,10 @@ public class VendaView extends JFrame {
 
         table = new JTable();
         table.setModel(new DefaultTableModel(
-            new Object[][] {},
-            new String[] { "ID", "Produto", "Qtd", "Valor Unit.", "Valor Total" }
-        ));
+        	    new Object[][] {},
+        	    new String[] { "ID", "Produto", "Qtd", "Valor Unit.", "Valor Total", "Tipo" }
+        	));
+
         scrollPane.setViewportView(table);
 
         JButton btnFinalizar = new JButton("Finalizar Venda");

@@ -7,7 +7,8 @@ public class ItemVendaDAO {
     private ConectaBanco conecta = new ConectaBanco();
 
     public void salvar(ItemVenda item) throws SQLException {
-        String sql = "INSERT INTO itens_venda (venda_id, produto_id, quantidade, valor_unitario, valor_total) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO itens_venda (venda_id, produto_id, quantidade, valor_unitario, valor_total, produzido, peso_em_kg) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = conecta.obtemConexao();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -17,6 +18,8 @@ public class ItemVendaDAO {
             stmt.setInt(3, item.getQuantidade());
             stmt.setDouble(4, item.getValorUnitario());
             stmt.setDouble(5, item.getValorTotal());
+            stmt.setBoolean(6, item.isProduzido());
+            stmt.setDouble(7, item.getPesoEmKg());
 
             stmt.executeUpdate();
         }

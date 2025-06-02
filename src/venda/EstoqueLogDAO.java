@@ -14,7 +14,7 @@ public class EstoqueLogDAO {
         stmt.setInt(1, log.getProdutoId());
         stmt.setInt(2, log.getUsuarioId());
         stmt.setString(3, log.getAcao());
-        stmt.setInt(4, log.getQuantidade());
+        stmt.setDouble(4, log.getQuantidade());
         stmt.setTimestamp(5, log.getDataHora());
 
         stmt.executeUpdate();

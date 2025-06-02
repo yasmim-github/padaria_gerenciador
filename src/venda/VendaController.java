@@ -18,10 +18,7 @@ public class VendaController extends JFrame {
     public void adicionarProduto() {
         try {
             String idStr = JOptionPane.showInputDialog("ID do Produto:");
-            String qtdStr = JOptionPane.showInputDialog("Quantidade:");
-
             int idProduto = Integer.parseInt(idStr);
-            int quantidade = Integer.parseInt(qtdStr);
 
             Produto produto = produtoDAO.buscarProdutoPorId(idProduto);
             if (produto == null) {
@@ -29,19 +26,44 @@ public class VendaController extends JFrame {
                 return;
             }
 
-            double valorTotal = quantidade * produto.getPreco();
+            double valorUnitario = produto.getPreco();
+            double valorTotal = 0.0;
 
-            ItemVenda item = new ItemVenda(0, 0, idProduto, quantidade, produto.getPreco(), valorTotal, produto.getNome());
+            ItemVenda item = new ItemVenda(0, 0, idProduto, 0, valorUnitario, 0.0, produto.getNome());
+            item.setProduzido(produto.isProduzido());
+
+            if (produto.isProduzido()) {
+                String pesoStr = JOptionPane.showInputDialog("Informe os quilos (kg), ex: 0.5:");
+                double pesoEmKg = Double.parseDouble(pesoStr);
+                item.setPesoEmKg(pesoEmKg);
+                item.calcularValorTotal();
+            } else {
+                String qtdStr = JOptionPane.showInputDialog("Informe as unidades:");
+                int quantidade = Integer.parseInt(qtdStr);
+                item.setQuantidade(quantidade);
+                item.calcularValorTotal();
+            }
+
             itensVenda.add(item);
 
             DefaultTableModel model = (DefaultTableModel) view.getTable().getModel();
-            model.addRow(new Object[]{idProduto, produto.getNome(), quantidade, produto.getPreco(), valorTotal});
+            model.addRow(new Object[]{
+                idProduto,
+                produto.getNome(),
+                produto.isProduzido() ? item.getPesoEmKg() + " kg" : item.getQuantidade() + " un",
+                valorUnitario,
+                item.getValorTotal(),
+                produto.isProduzido() ? "Produzido" : "Não Produzido"
+            });
 
             atualizarTotal();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(view, "Erro: " + e.getMessage());
         }
     }
+
+
+
 
     private void atualizarTotal() {
         double total = itensVenda.stream().mapToDouble(ItemVenda::getValorTotal).sum();
@@ -72,11 +94,19 @@ public class VendaController extends JFrame {
                 item.setVendaId(vendaId);
                 itemDAO.salvar(item);
 
-                produtoDAO.baixarEstoque(item.getProdutoId(), item.getQuantidade());
-
-                EstoqueLog log = new EstoqueLog(0, item.getProdutoId(), 1, "saida", item.getQuantidade(),
-                        Timestamp.valueOf(LocalDateTime.now()));
-                logDAO.salvar(log);
+                if (item.isProduzido()) {
+                    produtoDAO.baixarEstoque(item.getProdutoId(), item.getPesoEmKg());
+                    
+                    EstoqueLog log = new EstoqueLog(0, item.getProdutoId(), 1, "saida", 
+                            item.getPesoEmKg(), Timestamp.valueOf(LocalDateTime.now()));
+                    logDAO.salvar(log);
+                } else {
+                    produtoDAO.baixarEstoque(item.getProdutoId(), item.getQuantidade());
+                    
+                    EstoqueLog log = new EstoqueLog(0, item.getProdutoId(), 1, "saida", 
+                            item.getQuantidade(), Timestamp.valueOf(LocalDateTime.now()));
+                    logDAO.salvar(log);
+                }
             }
 
             
@@ -142,10 +172,15 @@ public class VendaController extends JFrame {
         sb.append("-----------------------------------------\n");
 
         for (ItemVenda item : itensVenda) {
-            sb.append(item.getQuantidade()).append("x ")
-              .append(item.getNomeProduto()).append(" - R$ ")
+            if (item.isProduzido()) {
+                sb.append(String.format("%.2f kg ", item.getPesoEmKg()));
+            } else {
+                sb.append(item.getQuantidade()).append(" un ");
+            }
+            sb.append(item.getNomeProduto()).append(" - R$ ")
               .append(String.format("%.2f", item.getValorTotal())).append("\n");
         }
+
 
         sb.append("-----------------------------------------\n");
         sb.append("Total: R$ ").append(String.format("%.2f", nota.getIcms() + nota.getIpi() + nota.getPis() + nota.getCofins() + 
