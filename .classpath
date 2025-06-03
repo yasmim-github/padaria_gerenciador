@@ -6,8 +6,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/muril/Downloads/mysql-connector-j-8.0.33.jar"/>
-	<classpathentry kind="lib" path="C:/Users/muril/Downloads/itextpdf-5.5.13.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/muril/Downloads/itext-2.1.7.jar"/>
+	<classpathentry kind="lib" path="/home/yasmim/eclipse-workspace/app_padaria/padaria_gerenciador/JARsEnvolvidos/itext-2.1.7.jar"/>
+	<classpathentry kind="lib" path="/home/yasmim/eclipse-workspace/app_padaria/padaria_gerenciador/JARsEnvolvidos/itextpdf-5.5.13.3.jar"/>
+	<classpathentry kind="lib" path="/home/yasmim/eclipse-workspace/app_padaria/padaria_gerenciador/JARsEnvolvidos/mysql-connector-j-8.0.33.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

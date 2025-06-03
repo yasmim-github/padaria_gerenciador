@@ -119,7 +119,7 @@ public class VendaController extends JFrame {
                     "55",                                    
                     Timestamp.valueOf(LocalDateTime.now()),  
                     gerarChaveAcesso(),                      
-                    "Padaria do Pandoca",                    
+                    "Padaria do Padoca",                    
                     "Atendente 01",                          
                     "00.000.000/0001-00",                    
                     "Rua da Alegria, 123",                  
@@ -143,7 +143,7 @@ public class VendaController extends JFrame {
             limpar();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(view, "Erro na venda: " + e.getMessage());
+            JOptionPane.showMessageDialog(view, "Erro na venda: " + e.getMessage() + "\nVerifique se os campos foram \npreenchidos corretamente.");
         }
     }
 

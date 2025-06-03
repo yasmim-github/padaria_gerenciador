@@ -2,6 +2,9 @@ package main;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.*;
 
 import colaboradores.gerenFuncionario;
@@ -30,6 +33,17 @@ public class HomeModulos extends JFrame {
         contentPane = new JPanel();
         contentPane.setLayout(null);
         setContentPane(contentPane);
+        
+        // configuração de fechamento da janela normal
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                CrashDetector.markCleanShutdown();
+                dispose();
+                System.exit(0);
+            }
+        });
 
         JPanel sidePanel = new JPanel();
         sidePanel.setBackground(Color.BLACK);
@@ -39,7 +53,7 @@ public class HomeModulos extends JFrame {
 
         JButton btnUser = new JButton(loadIcon("/imgs/user.png", 50, 50));
         btnUser.addActionListener((ActionEvent e) -> {
-            PerfilUsuario usu = new PerfilUsuario(usuarioId);  // ✅ Passando usuarioId corretamente
+            PerfilUsuario usu = new PerfilUsuario(usuarioId);  //  Passando usuarioId corretamente
             usu.setVisible(true);
         });
         btnUser.setBounds(25, 30, 50, 50);
@@ -111,6 +125,8 @@ public class HomeModulos extends JFrame {
         JLabel background = new JLabel(new ImageIcon(backgroundImage));
         background.setBounds(91, 0, 1104, 503);
         contentPane.add(background);
+    	CrashDetector.checkPreviousCrash();
+
     }
 
     private JButton createButton(String text, String iconPath) {

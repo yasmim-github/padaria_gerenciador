@@ -13,13 +13,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import db.ConectaBanco;
 
 public class CadastroDeFuncionario extends JFrame {
 
@@ -167,7 +165,7 @@ public class CadastroDeFuncionario extends JFrame {
 		JButton BtnSalvar = new JButton("SALVAR");
 		BtnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// código incompleto de select
+				// código incompleto de update
 			}
 		});
 		BtnSalvar.setBounds(188, 510, 120, 29);
