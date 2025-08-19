@@ -1,4 +1,4 @@
-<img width="1000" height="200" src="https://www.canva.com/design/DAGwiOytfrE/PZ03uX-XhKnskHuFi1tfyA/view?utm_content=DAGwiOytfrE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hed593998fb" alt="banner">
+<img width="1000" height="200" src="https://drive.google.com/drive/u/0/home" alt="banner">
 
 <h2>#Equipe</h2>
 
@@ -12,7 +12,7 @@
 
 <br>
 
-<h2>#TO-DO APP</h2>
+<h2>#Sistema Gerenciador de Estoque de Padaria</h2>
 
 Um aplicativo desktop de gerenciamento de estoque voltado para uma padaria fictícia.
 
