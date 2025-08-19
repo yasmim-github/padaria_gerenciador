@@ -1,4 +1,4 @@
-<img width="800" height="300" text-align=center src="banner_padoca.png" alt="banner">
+<img width="1000" height="400"  src="banner_padoca.png" alt="banner">
 
 <h2>#Equipe</h2>
 
