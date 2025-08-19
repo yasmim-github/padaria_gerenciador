@@ -1,4 +1,4 @@
-<img width="1000" height="200" src="https://drive.google.com/drive/u/0/home" alt="banner">
+<img width="1000" height="200" src="banner_padoca.png" alt="banner">
 
 <h2>#Equipe</h2>
 
